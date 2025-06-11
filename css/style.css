@@ -1,0 +1,35 @@
+.spacer{
+    margin-top:5em;
+}
+
+.list-top{
+    margin-top: 4.5em;
+}
+.rating {
+    direction: rtl; /* Urutan bintang dari kanan ke kiri */
+    display: flex;
+    justify-content: center;
+    gap: 0.2em;
+  }
+  
+  .rating input[type="checkbox"] {
+    display: none; /* Sembunyikan checkbox */
+  }
+  
+  .rating label.star {
+    font-size: 2.5em;
+    color: lightgray;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  
+  /* Bintang berubah warna ketika checkbox dicentang */
+  .rating input[type="checkbox"]:checked ~ label.star {
+    color: gold;
+  }
+  
+  /* Hover efek untuk bintang */
+  .rating label.star:hover,
+  .rating label.star:hover ~ label.star {
+    color: gold;
+  }
