@@ -174,7 +174,7 @@ if(isset($_POST['hapusbarangmasuk'])){
 
 if(isset($_POST['updatebarangkeluar'])){
     $idb = $_POST['idb'];
-    $idm = $_POST['idk'];
+    $idk = $_POST['idk'];
     $penerima = $_POST['penerima'];
     $quantity = $_POST['quantity'];
 
@@ -190,7 +190,7 @@ if(isset($_POST['updatebarangkeluar'])){
         $selisih = $quantity - $quantityskrg;
         $kurangin = $stockskrg - $selisih;
         $kurangistocknya = mysqli_query($koneksi, "UPDATE stock set stock='$kurangin' WHERE id_kamera='$idb'");
-        $updatenya = mysqli_query($koneksi,"UPDATE keluar set quantity='$quantity', penerima='$penerima' WHERE id_keluar='$idk '");
+        $updatenya = mysqli_query($koneksi,"UPDATE keluar set quantity='$quantity', penerima='$penerima' WHERE id_keluar='$idk'");
         if($kurangistocknya&&$updatenya){
             header('location:keluar.php');
         }else{
@@ -215,7 +215,7 @@ if(isset($_POST['updatebarangkeluar'])){
 if(isset($_POST['hapusbarangkeluar'])){
     $idb = $_POST['idb'];
     $quantity = $_POST['quantity'];
-    $idk = $_POST['idm'];
+    $idk = $_POST['idk'];
 
     $getdatastock = mysqli_query($koneksi, "SELECT * FROM stock where id_kamera='$idb'");
     $data = mysqli_fetch_array($getdatastock);
