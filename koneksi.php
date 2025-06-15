@@ -67,10 +67,20 @@ if (isset($_POST['kamerakeluar'])) {
     $ambildatanya = mysqli_fetch_array($cekstocksekarang);
 
     $stocksekarang = $ambildatanya['stock'];
-    $tambahstockskrgdgquantity = $stocksekarang - $quantity;
+    $barang_dipinjam = $ambildatanya['barang_dipinjam']; // ambil jumlah pinjaman sekarang
+    // $tambahstockskrgdgquantity = $stocksekarang - $quantity;
 
-    $addtokeluar = mysqli_query($koneksi, "insert into keluar (id_kamera, penerima, quantity) values('$id_kamera', '$penerima' , '$quantity')");
-    $update_stock = mysqli_query($koneksi, "UPDATE stock SET stock = '$tambahstockskrgdgquantity' WHERE id_kamera = '$id_kamera'");
+    $stockbaru = $stocksekarang - $quantity;
+    $dipinjam_baru = $barang_dipinjam + $quantity;  // tambah yang dipinjam,
+
+    // Simpan ke tabel keluar (log)
+    $addtokeluar = mysqli_query($koneksi, "INSERT INTO keluar (id_kamera, penerima, quantity) VALUES('$id_kamera', '$penerima', '$quantity')");
+
+    // Update stock DAN barang_dipinjam sekaligus
+    $update_stock = mysqli_query($koneksi, "UPDATE stock SET stock = '$stockbaru', barang_dipinjam = '$dipinjam_baru' WHERE id_kamera = '$id_kamera'");
+
+    // $addtokeluar = mysqli_query($koneksi, "insert into keluar (id_kamera, penerima, quantity) values('$id_kamera', '$penerima' , '$quantity')");
+    // $update_stock = mysqli_query($koneksi, "UPDATE stock SET stock = '$tambahstockskrgdgquantity' WHERE id_kamera = '$id_kamera'");
     if ($addtokeluar && $update_stock) {
         header('location:keluar.php');
     } else {
@@ -172,44 +182,48 @@ if(isset($_POST['hapusbarangmasuk'])){
 
 //ubah data  barang keluar
 
-if(isset($_POST['updatebarangkeluar'])){
+if (isset($_POST['updatebarangkeluar'])) {
     $idb = $_POST['idb'];
     $idk = $_POST['idk'];
     $penerima = $_POST['penerima'];
     $quantity = $_POST['quantity'];
 
-    $lihatstock = mysqli_query($koneksi, "SELECT * FROM stock where id_kamera='$idb'");
+    // Ambil data stock & barang_dipinjam sekarang
+    $lihatstock = mysqli_query($koneksi, "SELECT * FROM stock WHERE id_kamera='$idb'");
     $stocknya = mysqli_fetch_array($lihatstock);
     $stockskrg = $stocknya['stock'];
+    $dipinjam_skrg = $stocknya['barang_dipinjam'];
 
-    $quantityskrg = mysqli_query($koneksi, "SELECT * FROM  keluar where id_keluar='$idk'");
-    $quantityny =  mysqli_fetch_array($quantityskrg);
-    $quantityskrg = $quantityny['quantity'];
+    // Ambil quantity sebelumnya dari tabel keluar
+    $quantityskrg = mysqli_query($koneksi, "SELECT * FROM keluar WHERE id_keluar='$idk'");
+    $quantityny = mysqli_fetch_array($quantityskrg);
+    $quantitylama = $quantityny['quantity'];
 
-    if($quantity>$quantityskrg){
-        $selisih = $quantity - $quantityskrg;
-        $kurangin = $stockskrg - $selisih;
-        $kurangistocknya = mysqli_query($koneksi, "UPDATE stock set stock='$kurangin' WHERE id_kamera='$idb'");
-        $updatenya = mysqli_query($koneksi,"UPDATE keluar set quantity='$quantity', penerima='$penerima' WHERE id_keluar='$idk'");
-        if($kurangistocknya&&$updatenya){
-            header('location:keluar.php');
-        }else{
-            echo "Gagal";
-            header('location:keluar.php');
-        }
-    }else{
-        $selisih = $quantityskrg - $quantity;
-        $kurangin = $stockskrg + $selisih;
-        $kurangistocknya = mysqli_query($koneksi, "UPDATE stock set stock='$kurangin' WHERE id_kamera='$idb'");
-        $updatenya = mysqli_query($koneksi,"UPDATE keluar set quantity='$quantity', penerima='$penerima' WHERE id_keluar='$idk'");
-        if($kurangistocknya&&$updatenya){
-            header('location:keluar.php');
-        }else{
-            echo "Gagal";
-            header('location:keluar.php');
-        }
+    // Hitung selisih
+    if ($quantity > $quantitylama) {
+        // Tambah pinjaman
+        $selisih = $quantity - $quantitylama;
+        $stok_baru = $stockskrg - $selisih;
+        $dipinjam_baru = $dipinjam_skrg + $selisih;
+    } else {
+        // Kurangi pinjaman
+        $selisih = $quantitylama - $quantity;
+        $stok_baru = $stockskrg + $selisih;
+        $dipinjam_baru = $dipinjam_skrg - $selisih;
+    }
+
+    // Update tabel stock dan keluar
+    $updatestock = mysqli_query($koneksi, "UPDATE stock SET stock='$stok_baru', barang_dipinjam='$dipinjam_baru' WHERE id_kamera='$idb'");
+    $updatekeluar = mysqli_query($koneksi, "UPDATE keluar SET quantity='$quantity', penerima='$penerima' WHERE id_keluar='$idk'");
+
+    if ($updatestock && $updatekeluar) {
+        header('location:keluar.php');
+    } else {
+        echo "Gagal";
+        header('location:keluar.php');
     }
 }
+
 
 //hapus bbarang keluar
 if(isset($_POST['hapusbarangkeluar'])){
@@ -224,7 +238,7 @@ if(isset($_POST['hapusbarangkeluar'])){
     $selisih = $stock +  $quantity;
 
 
-    $update = mysqli_query($koneksi, "UPDATE stock set stock='$selisih' where id_kamera='$idb'");
+    $update = mysqli_query($koneksi, "UPDATE stock set stock=  stock + $quantity, barang_dipinjam = barang_dipinjam - $quantity WHERE id_kamera = '$idb'");
     $hapusdata = mysqli_query($koneksi, "DELETE from  keluar where id_keluar='$idk'");
 
     if($update&&$hapusdata){
@@ -235,4 +249,4 @@ if(isset($_POST['hapusbarangkeluar'])){
 }
 
 
-?>
+?>  

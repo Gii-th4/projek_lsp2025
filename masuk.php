@@ -37,15 +37,17 @@ require 'tes-koneksi.php';
                     <div class="nav">
                         <a class="nav-link" href="index.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Stock Kamera
-                            <a class="nav-link" href="masuk.php">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Barang Masuk
-                            </a>
-                            <a class="nav-link" href="keluar.php">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Barang Keluar
-                            </a>
+                            Daftar Kamera
+                        </a>
+                        <a class="nav-link" href="masuk.php">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Tambah Unit
+                        </a>
+                        <a class="nav-link" href="keluar.php">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Kurangi Unit
+                        </a>
+                            
                             <a class="nav-link" href="logout.php">
                                 Logout
                             </a>
@@ -105,14 +107,14 @@ require 'tes-koneksi.php';
                                                 <td><?= $nama_kamera; ?></td>
                                                 <td><?= $quantity; ?></td>
                                                 <td><?= $keterangan; ?></td>
-                                                 <td>
+                                                <td>
                                                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?= $idm; ?>">Edit</button>
-                                                   
-                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$idm;?>">Delete</button>
+
+                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?= $idm; ?>">Delete</button>
                                                 </td>
                                             </tr>
 
-                                            <div class="modal fade" id="edit<?=$idm;?>">
+                                            <div class="modal fade" id="edit<?= $idm; ?>">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -122,13 +124,13 @@ require 'tes-koneksi.php';
 
                                                         <form method="post">
                                                             <div class="modal-body">
-                                                            
-                                                                <input type="text" name="keterangan" value="<?=$keterangan;?>" class="form-control" required>
+
+                                                                <input type="text" name="keterangan" value="<?= $keterangan; ?>" class="form-control" required>
                                                                 <br>
-                                                                <input type="number" name="quantity" value="<?=$quantity;?>" class="form-control" required>
+                                                                <input type="number" name="quantity" value="<?= $quantity; ?>" class="form-control" required>
                                                                 <br>
-                                                                <input type="hidden" name="idb" value="<?=$idb;?>">
-                                                                <input type="hidden" name="idm" value="<?=$idm;?>">
+                                                                <input type="hidden" name="idb" value="<?= $idb; ?>">
+                                                                <input type="hidden" name="idm" value="<?= $idm; ?>">
                                                                 <button type="submit" class="btn btn-primary" name="updatebarangmasuk">Submit</button>
                                                             </div>
                                                         </form>
@@ -136,7 +138,7 @@ require 'tes-koneksi.php';
                                                 </div>
                                             </div>
 
-                                            <div class="modal fade" id="delete<?=$idm;?>">
+                                            <div class="modal fade" id="delete<?= $idm; ?>">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -146,10 +148,10 @@ require 'tes-koneksi.php';
 
                                                         <form method="post">
                                                             <div class="modal-body">
-                                                                Apakah Anda yakin ingin menghapus <?=$nama_kamera;?>?
-                                                                <input type="hidden" name="idb" value="<?=$idb;?>">
-                                                                <input type="hidden" name="quantity" value="<?=$quantity;?>">
-                                                                <input type="hidden" name="idm" value="<?=$idm;?>">
+                                                                Apakah Anda yakin ingin menghapus <?= $nama_kamera; ?>?
+                                                                <input type="hidden" name="idb" value="<?= $idb; ?>">
+                                                                <input type="hidden" name="quantity" value="<?= $quantity; ?>">
+                                                                <input type="hidden" name="idm" value="<?= $idm; ?>">
                                                                 <br>
                                                                 <br>
                                                                 <button type="submit" class="btn btn-danger" name="hapusbarangmasuk">Hapus</button>

@@ -35,18 +35,19 @@ require 'tes-koneksi.php';
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
-                        <a class="nav-link" href="index.php">
+                       <a class="nav-link" href="index.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Stock Kamera
+                            Daftar Kamera
                         </a>
                         <a class="nav-link" href="masuk.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Stock Masuk
+                            Tambah Unit
                         </a>
                         <a class="nav-link" href="keluar.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Stock Keluar
+                            Kurangi Unit
                         </a>
+                    
                         <a class="nav-link" href="logout.php">
                             Logout
                         </a>
@@ -85,6 +86,7 @@ require 'tes-koneksi.php';
                                             <th>Nama Kamera</th>
                                             <th>Merk</th>
                                             <th>Stock</th>
+                                            <th>Barang Dipinjam</th>
                                             <th>Aksi</th>
 
                                         </tr>
@@ -98,18 +100,29 @@ require 'tes-koneksi.php';
                                             $nama_kamera = $data['nama_kamera'];
                                             $merk = $data['merk'];
                                             $stock = $data['stock'];
-                                            $idb = $data['id_kamera']
+                                            $idb = $data['id_kamera'];
+                                            $barang_dipinjam = $data['barang_dipinjam'];
+
+                                            
                                         ?>
                                             <tr>
                                                 <td><?= $no++; ?></td>
                                                 <td><?= $nama_kamera; ?></td>
                                                 <td><?= $merk; ?></td>
                                                 <td><?= $stock; ?></td>
+                                                 
+                                                <td><?= $barang_dipinjam; ?></td>
                                                 <td>
                                                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?= $idb; ?>">Edit</button>
                                                    
                                                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$idb;?>">Delete</button>
                                                 </td>
+                                               
+
+                                                
+                                                
+
+
                                             </tr>
 
 
