@@ -47,10 +47,10 @@ require 'tes-koneksi.php';
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Kurangi Unit
                         </a>
-                            
-                            <a class="nav-link" href="logout.php">
-                                Logout
-                            </a>
+
+                        <a class="nav-link" href="logout.php">
+                            Logout
+                        </a>
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
@@ -62,20 +62,20 @@ require 'tes-koneksi.php';
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid">
-                    <h1 class="mt-4">Barang Keluar</h1>
+                    <h1 class="mt-4">Peminjaman</h1>
 
                     <div class="card mb-4">
 
                         <div class="mb-3">
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                Tambah Kamera
+                                Tambah Peminjaman
                             </button>
                         </div>
 
 
                         <div class="card-header">
                             <i class="fas fa-table mr-1"></i>
-                            DataTable Example
+                            Data Tabel Peminjamanan
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -138,28 +138,36 @@ require 'tes-koneksi.php';
                                                 </div>
                                             </div>
 
+
+
                                             <div class="modal fade" id="delete<?= $idk; ?>">
                                                 <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Hapus Barang?</h1>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    <div class="modal-content border-danger">
+                                                        <div class="modal-header bg-danger text-white">
+                                                            <h5 class="modal-title">Peminjaman Selesai</h5>
+                                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
 
                                                         <form method="post">
                                                             <div class="modal-body">
-                                                                Apakah Anda yakin ingin menghapus <?= $nama_kamera; ?>?
+                                                                <div class="alert alert-warning">
+                                                                    Kamera <strong><?= $nama_kamera; ?></strong> sebanyak <strong><?= $quantity; ?> unit</strong> akan dikembalikan dan stok akan diperbarui.
+                                                                </div>
+                                            
                                                                 <input type="hidden" name="idb" value="<?= $idb; ?>">
                                                                 <input type="hidden" name="quantity" value="<?= $quantity; ?>">
                                                                 <input type="hidden" name="idk" value="<?= $idk; ?>">
-                                                                <br>
-                                                                <br>
-                                                                <button type="submit" class="btn btn-danger" name="hapusbarangkeluar">Hapus</button>
+
+                                                                <div class="text-end mt-3">
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                                                    <button type="submit" class="btn btn-danger" name="hapusbarangkeluar">Selesaikan Peminjaman</button>
+                                                                </div>
                                                             </div>
                                                         </form>
                                                     </div>
                                                 </div>
                                             </div>
+
 
                                         <?php
                                         }
@@ -209,19 +217,19 @@ require 'tes-koneksi.php';
             </div>
             <form method="post">
                 <div class="modal-body">
-                    <select name="kameranya" class="form-control">
+                    <select name="kameranya" class="form-control" required>
                         <?php
                         $ambilsemuadatanya = mysqli_query($koneksi, "SELECT * FROM stock");
                         while ($fetcharray = mysqli_fetch_array($ambilsemuadatanya)) {
-                            $kameranya = $fetcharray['nama_kamera'];
-                            $id_kamera = $fetcharray['id_kamera'];
+                            $nama = $fetcharray['nama_kamera'];
+                            $merk = $fetcharray['merk'];
+                            $stock = $fetcharray['stock'];
+                            $idkamera = $fetcharray['id_kamera'];
 
-                        ?>
+                            $label = $nama . " (" . $merk . ") - Stock: " . $stock;
+                            $disabled = ($stock == 0) ? "disabled" : "";
 
-                            <option value="<?= $id_kamera; ?>"><?= $kameranya; ?></option>
-
-
-                        <?php
+                            echo "<option value='$idkamera' $disabled>$label" . ($stock == 0 ? " (Tidak tersedia)" : "") . "</option>";
                         }
                         ?>
                     </select>

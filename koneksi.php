@@ -6,7 +6,7 @@ session_start();
 
 $host = "localhost";
 $user = "root";
-$pass = "root";
+$pass = "";
 $db   = "kamera_pinjam";
 
 // Membuat koneksi
@@ -134,7 +134,7 @@ if(isset($_POST['updatebarangmasuk'])){
 
     if($quantity>$quantityskrg){
         $selisih = $quantity - $quantityskrg;
-        $kurangin = $stockskrg - $selisih;
+        $kurangin = $stockskrg + $selisih;
         $kurangistocknya = mysqli_query($koneksi, "UPDATE stock set stock='$kurangin' WHERE id_kamera='$idb'");
         $updatenya = mysqli_query($koneksi,"UPDATE masuk set quantity='$quantity', keterangan='$keterangan' WHERE id_masuk='$idm'");
         if($kurangistocknya&&$updatenya){
@@ -145,7 +145,7 @@ if(isset($_POST['updatebarangmasuk'])){
         }
     }else{
         $selisih = $quantityskrg - $quantity;
-        $kurangin = $stockskrg + $selisih;
+        $kurangin = $stockskrg - $selisih;
         $kurangistocknya = mysqli_query($koneksi, "UPDATE stock set stock='$kurangin' WHERE id_kamera='$idb'");
         $updatenya = mysqli_query($koneksi,"UPDATE masuk set quantity='$quantity', keterangan='$keterangan' WHERE id_masuk='$idm'");
         if($kurangistocknya&&$updatenya){

@@ -62,20 +62,20 @@ require 'tes-koneksi.php';
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid">
-                    <h1 class="mt-4">Barang Masuk</h1>
+                    <h1 class="mt-4">Tambah Jumlah Unit Kamera</h1>
 
                     <div class="card mb-4">
 
                         <div class="mb-3">
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                Tambah Kamera
+                                Tambah Jumlah Unit
                             </button>
                         </div>
 
 
                         <div class="card-header">
                             <i class="fas fa-table mr-1"></i>
-                            DataTable Example
+                            Data Table Penambahan Unit / 1 Data
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -118,7 +118,7 @@ require 'tes-koneksi.php';
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Barang</h1>
+                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Unit</h1>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
 
@@ -142,7 +142,7 @@ require 'tes-koneksi.php';
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Hapus Barang?</h1>
+                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Hapus Unit?</h1>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
 

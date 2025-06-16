@@ -35,7 +35,7 @@ require 'tes-koneksi.php';
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
-                       <a class="nav-link" href="index.php">
+                        <a class="nav-link" href="index.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Daftar Kamera
                         </a>
@@ -47,7 +47,7 @@ require 'tes-koneksi.php';
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Kurangi Unit
                         </a>
-                    
+
                         <a class="nav-link" href="logout.php">
                             Logout
                         </a>
@@ -62,20 +62,20 @@ require 'tes-koneksi.php';
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid">
-                    <h1 class="mt-4">Stok Kamera</h1>
+                    <h1 class="mt-4">Stock Unit Kamera</h1>
 
                     <div class="card mb-4">
 
                         <div class="mb-3">
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                Tambah Kamera
+                                Tambah Unit Baru
                             </button>
                         </div>
 
 
                         <div class="card-header">
                             <i class="fas fa-table mr-1"></i>
-                            DataTable Example
+                            Data Tabel Unit Kamera
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -103,32 +103,34 @@ require 'tes-koneksi.php';
                                             $idb = $data['id_kamera'];
                                             $barang_dipinjam = $data['barang_dipinjam'];
 
-                                            
+
                                         ?>
                                             <tr>
                                                 <td><?= $no++; ?></td>
                                                 <td><?= $nama_kamera; ?></td>
                                                 <td><?= $merk; ?></td>
-                                                <td><?= $stock; ?></td>
-                                                 
+                                                <td><?= ($stock == 0) ? '<span class="badge bg-danger">Tidak Tersedia</span>' : $stock; ?></td>
+
                                                 <td><?= $barang_dipinjam; ?></td>
+                                    
+                                               `
                                                 <td>
                                                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?= $idb; ?>">Edit</button>
-                                                   
-                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$idb;?>">Delete</button>
-                                                </td>
-                                               
 
-                                                
-                                                
+                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?= $idb; ?>">Delete</button>
+                                                </td>
+
+
+
+
 
 
                                             </tr>
 
 
 
-                                           
-                                            <div class="modal fade" id="edit<?=$idb;?>">
+
+                                            <div class="modal fade" id="edit<?= $idb; ?>">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -138,11 +140,11 @@ require 'tes-koneksi.php';
 
                                                         <form method="post">
                                                             <div class="modal-body">
-                                                                <input type="text" name="nama_kamera" value="<?=$nama_kamera;?>" class="form-control">
+                                                                <input type="text" name="nama_kamera" value="<?= $nama_kamera; ?>" class="form-control">
                                                                 <br>
-                                                                <input type="text" name="merk" value="<?=$merk;?>" class="form-control">
+                                                                <input type="text" name="merk" value="<?= $merk; ?>" class="form-control">
                                                                 <br>
-                                                                <input type="hidden" name="idb" value="<?=$idb;?>">
+                                                                <input type="hidden" name="idb" value="<?= $idb; ?>">
                                                                 <button type="submit" class="btn btn-primary" name="updatebarang">Submit</button>
                                                             </div>
                                                         </form>
@@ -150,7 +152,7 @@ require 'tes-koneksi.php';
                                                 </div>
                                             </div>
 
-                                            <div class="modal fade" id="delete<?=$idb;?>">
+                                            <div class="modal fade" id="delete<?= $idb; ?>">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -160,8 +162,8 @@ require 'tes-koneksi.php';
 
                                                         <form method="post">
                                                             <div class="modal-body">
-                                                                Apakah Anda yakin ingin menghapus <?=$nama_kamera;?>?
-                                                                <input type="hidden" name="idb" value="<?=$idb;?>">
+                                                                Apakah Anda yakin ingin menghapus <?= $nama_kamera; ?>?
+                                                                <input type="hidden" name="idb" value="<?= $idb; ?>">
                                                                 <br>
                                                                 <br>
                                                                 <button type="submit" class="btn btn-danger" name="hapusbarang">Hapus</button>
