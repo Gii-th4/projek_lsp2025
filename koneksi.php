@@ -49,7 +49,7 @@ if (isset($_POST['kameramasuk'])) {
     $addtomasuk = mysqli_query($koneksi, "insert into masuk (id_kamera, keterangan, quantity) values('$id_kamera', '$penerima' , '$quantity')");
     $update_stock = mysqli_query($koneksi, "UPDATE stock SET stock = '$tambahstockskrgdgquantity' WHERE id_kamera = '$id_kamera'");
     if ($addtomasuk && $update_stock) {
-        header('location:index.php');
+        header('location:masuk.php');
     } else {
         echo "Gagal";
         header('gagal');

@@ -94,86 +94,82 @@ require 'tes-koneksi.php';
                                     <tbody>
 
                                         <?php
-                                        $ambilsemuadatanya = mysqli_query($koneksi, "SELECT * FROM stock");
-                                        $no = 1;
-                                        while ($data = mysqli_fetch_array($ambilsemuadatanya)) {
-                                            $nama_kamera = $data['nama_kamera'];
-                                            $merk = $data['merk'];
-                                            $stock = $data['stock'];
-                                            $idb = $data['id_kamera'];
-                                            $barang_dipinjam = $data['barang_dipinjam'];
+                                            //mengambil semua data dari tabel "stock"
+                                            $ambilsemuadatanya = mysqli_query($koneksi, "SELECT * FROM stock");
+                                            $no = 1;
 
 
+                                            //loop setiap data sg diambil
+                                            while ($data = mysqli_fetch_array($ambilsemuadatanya)) {
+                                                //sv data = variable
+                                                $nama_kamera = $data['nama_kamera'];
+                                                $merk = $data['merk'];
+                                                $stock = $data['stock'];
+                                                $idb = $data['id_kamera'];
+                                                $barang_dipinjam = $data['barang_dipinjam'];
+
+                                                // //data ditampilkan dlm bntr dataTables
                                         ?>
-                                            <tr>
-                                                <td><?= $no++; ?></td>
-                                                <td><?= $nama_kamera; ?></td>
-                                                <td><?= $merk; ?></td>
-                                                <td><?= ($stock == 0) ? '<span class="badge bg-danger">Tidak Tersedia</span>' : $stock; ?></td>
+                                                
+                                                <tr>
+                                                    <td><?= $no++; ?></td>
+                                                    <td><?= $nama_kamera; ?></td>
+                                                    <td><?= $merk; ?></td>
+                                                    <td><?= ($stock == 0) ? '<span class="badge bg-danger">Tidak Tersedia</span>' : $stock; ?></td>
 
-                                                <td><?= $barang_dipinjam; ?></td>
-                                    
-                                               `
-                                                <td>
-                                                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?= $idb; ?>">Edit</button>
+                                                    <td><?= $barang_dipinjam; ?></td>
 
-                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?= $idb; ?>">Delete</button>
-                                                </td>
+                                                    
+                                                    <td>
+                                                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?= $idb; ?>">Edit</button>
 
-
-
-
+                                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?= $idb; ?>">Delete</button>
+                                                    </td>
+                                                </tr>
 
 
-                                            </tr>
-
-
-
-
-                                            <div class="modal fade" id="edit<?= $idb; ?>">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Barang</h1>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-
-                                                        <form method="post">
-                                                            <div class="modal-body">
-                                                                <input type="text" name="nama_kamera" value="<?= $nama_kamera; ?>" class="form-control">
-                                                                <br>
-                                                                <input type="text" name="merk" value="<?= $merk; ?>" class="form-control">
-                                                                <br>
-                                                                <input type="hidden" name="idb" value="<?= $idb; ?>">
-                                                                <button type="submit" class="btn btn-primary" name="updatebarang">Submit</button>
+                                                <div class="modal fade" id="edit<?= $idb; ?>">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Barang</h1>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
-                                                        </form>
+
+                                                            <form method="post">
+                                                                <div class="modal-body">
+                                                                    <input type="text" name="nama_kamera" value="<?= $nama_kamera; ?>" class="form-control">
+                                                                    <br>
+                                                                    <input type="text" name="merk" value="<?= $merk; ?>" class="form-control">
+                                                                    <br>
+                                                                    <input type="hidden" name="idb" value="<?= $idb; ?>">
+                                                                    <button type="submit" class="btn btn-primary" name="updatebarang">Submit</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="modal fade" id="delete<?= $idb; ?>">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Hapus Barang?</h1>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-
-                                                        <form method="post">
-                                                            <div class="modal-body">
-                                                                Apakah Anda yakin ingin menghapus <?= $nama_kamera; ?>?
-                                                                <input type="hidden" name="idb" value="<?= $idb; ?>">
-                                                                <br>
-                                                                <br>
-                                                                <button type="submit" class="btn btn-danger" name="hapusbarang">Hapus</button>
+                                                <div class="modal fade" id="delete<?= $idb; ?>">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Hapus Barang?</h1>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
-                                                        </form>
+
+                                                            <form method="post">
+                                                                <div class="modal-body">
+                                                                    Apakah Anda yakin ingin menghapus <?= $nama_kamera; ?>?
+                                                                    <input type="hidden" name="idb" value="<?= $idb; ?>">
+                                                                    <br>
+                                                                    <br>
+                                                                    <button type="submit" class="btn btn-danger" name="hapusbarang">Hapus</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-
-
                                         <?php
                                         };
 
