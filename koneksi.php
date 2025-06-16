@@ -7,7 +7,7 @@ session_start();
 $host = "localhost";
 $user = "root";
 $pass = "root";
-$db   = "pinjamkamera";
+$db   = "kamera_pinjam";
 
 // Membuat koneksi
 $koneksi = mysqli_connect($host, $user, $pass, $db);
