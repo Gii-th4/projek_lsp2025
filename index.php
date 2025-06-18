@@ -70,6 +70,10 @@ require 'tes-koneksi.php';
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                 Tambah Unit Baru
                             </button>
+                            <!-- <button class="btn btn-secondary" onclick="printTable()">Print</button> -->
+
+                            
+
                         </div>
 
 
@@ -79,21 +83,22 @@ require 'tes-koneksi.php';
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Nama Kamera</th>
-                                            <th>Merk</th>
-                                            <th>Stock</th>
-                                            <th>Barang Dipinjam</th>
-                                            <th>Aksi</th>
+                                <div id="printArea">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Nama Kamera</th>
+                                                <th>Merk</th>
+                                                <th>Stock</th>
+                                                <th>Barang Dipinjam</th>
+                                                <th>Aksi</th>
 
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
 
-                                        <?php
+                                            <?php
                                             //mengambil semua data dari tabel "stock"
                                             $ambilsemuadatanya = mysqli_query($koneksi, "SELECT * FROM stock");
                                             $no = 1;
@@ -109,8 +114,8 @@ require 'tes-koneksi.php';
                                                 $barang_dipinjam = $data['barang_dipinjam'];
 
                                                 // //data ditampilkan dlm bntr dataTables
-                                        ?>
-                                                
+                                            ?>
+
                                                 <tr>
                                                     <td><?= $no++; ?></td>
                                                     <td><?= $nama_kamera; ?></td>
@@ -119,7 +124,7 @@ require 'tes-koneksi.php';
 
                                                     <td><?= $barang_dipinjam; ?></td>
 
-                                                    
+
                                                     <td>
                                                         <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?= $idb; ?>">Edit</button>
 
@@ -170,14 +175,17 @@ require 'tes-koneksi.php';
                                                         </div>
                                                     </div>
                                                 </div>
-                                        <?php
-                                        };
+                                            <?php
+                                            };
 
-                                        ?>
+                                            ?>
 
 
-                                    </tbody>
-                                </table>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -207,6 +215,19 @@ require 'tes-koneksi.php';
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
     <script src="assets/demo/datatables-demo.js"></script>
+
+    <script>
+        function printTable() {
+            var printContents = document.getElementById('printArea').innerHTML;
+            var originalContents = document.body.innerHTML;
+
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+            location.reload(); // biar reload otomatis habis print
+        }
+    </script>
+
 </body>
 
 <!-- Modal -->
