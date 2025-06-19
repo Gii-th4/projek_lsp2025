@@ -70,7 +70,7 @@ require 'tes-koneksi.php';
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                 Tambah Unit Baru
                             </button>
-                            <!-- <button class="btn btn-secondary" onclick="printTable()">Print</button> -->
+                            <button class="btn btn-secondary" onclick="printTable()">Print</button>
 
                             
 
@@ -97,6 +97,8 @@ require 'tes-koneksi.php';
                                             </tr>
                                         </thead>
                                         <tbody>
+ 
+
 
                                             <?php
                                             //mengambil semua data dari tabel "stock"
@@ -118,7 +120,15 @@ require 'tes-koneksi.php';
 
                                                 <tr>
                                                     <td><?= $no++; ?></td>
-                                                    <td><?= $nama_kamera; ?></td>
+
+                                                    <td>
+                                                        <?php
+                                                        if(!empty($data['foto'])):?>
+                                                        <img src="uploads/<?= $data['foto']; ?>" width="60" height="40" class="img-thumbnail"><br>
+                                                        <?php endif; ?>
+                                                        <?= $nama_kamera; ?>
+                                                    </td>
+
                                                     <td><?= $merk; ?></td>
                                                     <td><?= ($stock == 0) ? '<span class="badge bg-danger">Tidak Tersedia</span>' : $stock; ?></td>
 
@@ -141,12 +151,15 @@ require 'tes-koneksi.php';
                                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
 
-                                                            <form method="post">
+                                                            <form method="post" enctype="multipart/form-data">
                                                                 <div class="modal-body">
                                                                     <input type="text" name="nama_kamera" value="<?= $nama_kamera; ?>" class="form-control">
                                                                     <br>
                                                                     <input type="text" name="merk" value="<?= $merk; ?>" class="form-control">
                                                                     <br>
+                                                                    <label>Ganti Foto (Opsional)</label>
+                                                                    <input type="file" name="foto" class="form-control mb-3">
+
                                                                     <input type="hidden" name="idb" value="<?= $idb; ?>">
                                                                     <button type="submit" class="btn btn-primary" name="updatebarang">Submit</button>
                                                                 </div>
@@ -238,14 +251,18 @@ require 'tes-koneksi.php';
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            
 
-            <form method="post">
+
+            <form method="post" enctype="multipart/form-data">
                 <div class="modal-body">
                     <input type="text" name="nama_kamera" placeholder="Nama Kamera" class="form-control">
                     <br>
                     <input type="text" name="merk" placeholder="Merk" class="form-control">
                     <br>
                     <input type="number" name="stock" class="form-control" placeholder="Stock">
+                    <br>
+                    <input type="file" name="foto" class="form-control">
                     <br>
                     <button type="submit" class="btn btn-primary" name="addkamera">Submit</button>
                 </div>

@@ -103,7 +103,13 @@ require 'tes-koneksi.php';
                                         ?>
                                             <tr>
                                                 <td><?= $tanggal; ?></td>
-                                                <td><?= $nama_kamera; ?></td>
+                                                <td>
+                                                    <?php if (!empty($data['foto'])): ?>
+                                                        <img src="uploads/<?= $data['foto']; ?>" width="60" height="40" class="img-thumbnail"><br>
+                                                    <?php endif; ?>
+                                                    <?= $nama_kamera; ?>
+                                                </td>
+
                                                 <td><?= $quantity; ?></td>
                                                 <td><?= $penerima; ?></td>
                                                 <td>

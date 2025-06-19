@@ -24,13 +24,50 @@ if (isset($_POST['addkamera'])) {
     $merk = $_POST['merk'];
     $stock = $_POST['stock'];
 
-    $addtotable = mysqli_query($koneksi, "insert into stock (nama_kamera, merk, stock) values('$nama_kamera', '$merk', '$stock')");
+    if (isset($_POST['addkamera'])) {
+    $nama_kamera = $_POST['nama_kamera'];
+    $merk = $_POST['merk'];
+    $stock = $_POST['stock'];
+
+    // Cek apakah file diupload
+    if ($_FILES['foto']['error'] === 0) {
+        $foto = $_FILES['foto']['name'];
+        $tmp = $_FILES['foto']['tmp_name'];
+        $folder = 'uploads/';
+        $foto_baru = time() . '-' . $foto; // Biar nama file unik
+
+        // Upload file ke folder
+        if (move_uploaded_file($tmp, $folder . $foto_baru)) {
+            // Simpan nama file ke database
+            $addtotable = mysqli_query($koneksi, "INSERT INTO stock (nama_kamera, merk, stock, foto) VALUES('$nama_kamera', '$merk', '$stock', '$foto_baru')");
+        } else {
+            echo "Upload foto gagal";
+            exit;
+        }
+    } else {
+        // Jika tidak ada foto, simpan tanpa gambar
+        $addtotable = mysqli_query($koneksi, "INSERT INTO stock (nama_kamera, merk, stock) VALUES('$nama_kamera', '$merk', '$stock')");
+    }
+
     if ($addtotable) {
         header('location:index.php');
     } else {
         echo "Gagal";
-        header('gagal');
+        exit;
     }
+}
+
+
+
+
+
+    // $addtotable = mysqli_query($koneksi, "insert into stock (nama_kamera, merk, stock) values('$nama_kamera', '$merk', '$stock')");
+    // if ($addtotable) {
+    //     header('location:index.php');
+    // } else {
+    //     echo "Gagal";
+    //     header('gagal');
+    // }
 };
 
 //tambah kamera masuk
@@ -90,19 +127,45 @@ if (isset($_POST['kamerakeluar'])) {
 };
 
 //update info barang
+//update info barang + update foto jika ada
 if (isset($_POST['updatebarang'])) {
     $id_kamera  = $_POST['idb'];
     $nama_kamera = $_POST['nama_kamera'];
     $merk = $_POST['merk'];
 
-    $update = mysqli_query($koneksi, "update stock set nama_kamera='$nama_kamera', merk='$merk' where id_kamera ='$id_kamera'");
+    // Cek apakah ada upload foto baru
+    $updateFotoSQL = '';
+    if (!empty($_FILES['foto']['name'])) {
+        $fotoBaru = time() . '-' . basename($_FILES["foto"]["name"]);
+        $targetDir = "uploads/";
+        $targetFile = $targetDir . $fotoBaru;
+
+        // Ambil nama foto lama dari DB
+        $ambilFotoLama = mysqli_query($koneksi, "SELECT foto FROM stock WHERE id_kamera='$id_kamera'");
+        $fotoData = mysqli_fetch_array($ambilFotoLama);
+        $fotoLama = $fotoData['foto'];
+
+        // pndh file baru
+        if (move_uploaded_file($_FILES["foto"]["tmp_name"], $targetFile)) {
+            // Hps ft lama
+            if (!empty($fotoLama) && file_exists("uploads/" . $fotoLama)) {
+                unlink("uploads/" . $fotoLama);
+            }
+            $updateFotoSQL = ", foto = '$fotoBaru'";
+        }
+    }
+
+    // Update data
+    $update = mysqli_query($koneksi, "UPDATE stock SET nama_kamera='$nama_kamera', merk='$merk' $updateFotoSQL WHERE id_kamera ='$id_kamera'");
+
     if ($update) {
         header('location:index.php');
     } else {
         echo 'Gagal';
         header('location:index.php');
     };
-};
+}
+
 
 //hapus barang dari stock
 if (isset($_POST['hapusbarang'])) {
@@ -116,6 +179,7 @@ if (isset($_POST['hapusbarang'])) {
         header('location:index.php');
     };
 };
+
 
 //ubah data barang masuk
 if(isset($_POST['updatebarangmasuk'])){
